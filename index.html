@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PEM Electrolyzer Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>PEM Electrolyzer Dashboard</h1>
+
+    <div id="controls">
+        <h2>Controls & Commands</h2>
+        <label>Mode:
+            <select id="mode">
+                <option value="auto">AUTO</option>
+                <option value="manual">Manual</option>
+            </select>
+        </label>
+        <label>Manual Current (A):
+            <input type="number" id="manual-current" value="150" min="0">
+        </label>
+        <button id="apply-current">Apply</button>
+        <button id="request-mpc">Request MPC now</button>
+        <button id="compute-mpc">Compute MPC</button>
+        <button id="refill-water">Refill Water</button>
+    </div>
+
+    <div id="metrics">
+        <h2>MPC Metrics & System Status</h2>
+        <p>Applied Current: <span id="applied-current">--</span> A</p>
+        <p>Grid Ratio: <span id="grid-ratio">--</span> %</p>
+        <p>PV Ratio: <span id="pv-ratio">--</span> %</p>
+        <p>Water Tank: <span id="water-tank">--</span> L</p>
+        <p>O₂ Rate: <span id="o2-rate">--</span> L/h</p>
+        <p>Last MPC cost: <span id="mpc-cost">--</span></p>
+    </div>
+
+    <div id="charts">
+        <canvas id="currentChart"></canvas>
+        <canvas id="waterChart"></canvas>
+    </div>
+
+    <!-- Load libraries first -->
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+    <!-- Your web app code -->
+    <script src="kenya-data.js"></script>
+    <script src="mpc-controller.js"></script>
+    <script src="henmpc-controller.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
