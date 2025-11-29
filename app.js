@@ -109,3 +109,22 @@ document.getElementById("compute-mpc").onclick = () => {
 document.getElementById("refill-water").onclick = () => {
     client.publish("pem/commands", JSON.stringify({ refill_water: true }));
 };
+// after MQTT connect
+client.subscribe('pem_electrolyzer/sim');
+client.subscribe('matlab/simulation');
+
+client.on('message', (topic, payload) => {
+  let txt = payload.toString();
+  try {
+    const data = JSON.parse(txt);
+    // prefer matlab_simulation flag if present
+    if (data.matlab_simulation || topic === 'pem_electrolyzer/sim' || topic === 'matlab/simulation') {
+      handleMatlabSimulationData(data);
+    } else {
+      handleOtherData(topic, data);
+    }
+  } catch (e) {
+    console.warn('Malformed JSON from', topic, txt);
+  }
+});
+
