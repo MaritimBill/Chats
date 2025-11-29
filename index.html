@@ -54,3 +54,20 @@
     <script src="app.js"></script>
 </body>
 </html>
+<script>
+(function(){
+  // If stylesheet failed to load, apply inline fallback CSS
+  function applyFallback() {
+    if (!document.querySelector('link[href="styles.css"]')) return;
+    // if stylesheet link exists but failed to load, we can still inject fallback
+    if (!document.styleSheets.length || Array.from(document.styleSheets).every(s=>s.href && !s.href.includes('styles.css'))) {
+      const css = `body{background:#071011;color:#e6f0f8} .card{background:#0f1a20;border:1px solid rgba(120,140,160,0.08);}`;
+      const style = document.createElement('style'); style.innerText = css; document.head.appendChild(style);
+    }
+  }
+  window.addEventListener('load', applyFallback);
+  // also run after small delay for pages cached slowly
+  setTimeout(applyFallback, 1200);
+})();
+</script>
+
